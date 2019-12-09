@@ -10,15 +10,20 @@ class BeerListItem extends LitElement {
           padding: 10px;
           border: solid 1px black;
           border-radius: 10px;
-          min-height: 50px;
+          min-height: 150px;
         }
-        h2 {
-          color: red;
+        .el-img {
+          max-height: 100px;
+        }
+        .el-alcohol {
+          clear:both;
         }
       </style>
-      <div class="beer">
-        <h2>${this.name}</h2>
-        <p>${this.description}</p>
+      <div id="${this.id}" class="beer clearfix">
+        <img class="float-right el-img" src="./data/beers/${this.img}">
+        <h2 class="el-name">${this.name}</h2>
+        <p class="el-description">${this.description}</p>
+        <p class="float-right el-alcohol">Alcohol content: ${this.alcohol}%</p>
       </div>
     `;
   }
@@ -31,19 +36,28 @@ class BeerListItem extends LitElement {
 
   static get properties() {
     return {
+      id: {
+        type: String,
+      },
       name: {
         type: String,
       },
       description: {
         type: String,
-      }
+      },
+      img: {
+        type: String,
+      },
+      alcohol: {
+        type: String,
+      },
     };
   }
 
   static get styles() {
     return bootstrapStyle;
   }
-  
+
 }
 
 customElements.define('beer-list-item', BeerListItem);
