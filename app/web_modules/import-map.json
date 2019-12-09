@@ -1,6 +1,8 @@
 {
   "imports": {
     "@granite-elements/granite-lit-bootstrap": "./@granite-elements/granite-lit-bootstrap.js",
+    "@granite-elements/granite-vaadin-router": "./@granite-elements/granite-vaadin-router.js",
+    "@vaadin/router": "./@vaadin/router.js",
     "lit-element": "./lit-element.js"
   }
 }
