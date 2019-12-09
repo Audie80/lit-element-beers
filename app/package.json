@@ -1,0 +1,15 @@
+{
+  "name": "lit-element-beers",
+  "version": "1.0.0",
+  "description": "LitElement Beers - A LitElement tutorial",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node ./web-server.js"
+  },
+  "dependencies": {
+    "lit-element": "^2.2.1"
+  },
+  "devDependencies": {
+    "@pika/web": "^0.6.1"
+  }
+}
