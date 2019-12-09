@@ -1,4 +1,5 @@
 import { LitElement, html } from '../web_modules/lit-element.js';
+import bootstrapStyle from '../web_modules/@granite-elements/granite-lit-bootstrap.js';
 
 class BeerListItem extends LitElement {
   render() {
@@ -22,6 +23,12 @@ class BeerListItem extends LitElement {
     `;
   }
 
+  constructor() {
+    super();
+    //this.name = 'A beer';
+    //this.description = 'Description of the beer';
+  }
+
   static get properties() {
     return {
       name: {
@@ -33,11 +40,10 @@ class BeerListItem extends LitElement {
     };
   }
 
-  constructor() {
-    super();
-    //this.name = 'A beer';
-    //this.description = 'Description of the beer';
+  static get styles() {
+    return bootstrapStyle;
   }
+  
 }
 
 customElements.define('beer-list-item', BeerListItem);

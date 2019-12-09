@@ -31,8 +31,21 @@ class BeerList extends LitElement {
     return {
       beers: {
         type: Array,
-      }  
+      },
+      filterText: {
+        type: String,
+      }
     };
+  }
+
+  _inputChange() {
+    this.filterText = this.shadowRoot.querySelector('#search').value;
+  }
+
+  _currentBeers() {
+    return this.beers.filter((beer) => {
+      return beer.name.match(new RegExp(this.filterText, 'i'));
+    }).length;
   }
 
   static get styles() {
@@ -41,24 +54,40 @@ class BeerList extends LitElement {
 
   render() {
     return html`
-      <div class="container">
-        ${
-      this.beers.map((beer) => {
-        return html`
-              <beer-list-item name="${beer.name}" description="${beer.description}">
-              </beer-list-item>
-            `;
-      })
-      }
-      <p>Total number of beers: ${this.beers.length}</p>
-      </div>
-      <div class="container">
-        <table>
-          <tr><th>Row number</th></tr>
-          ${[0, 1, 2, 3, 4, 5, 6, 7].map((item) => html
-            `<tr><td>${item}</td>
-            `)}
-        </table>
+      <div class="beers container">
+        <div class="row">
+          <div class="col-md-3">
+            <!--Sidebar content--> 
+            <div class="form-group">
+              <label 
+                  for="search">
+                Search
+              </label>
+              <input 
+                  type="text" 
+                  class="form-control" 
+                  id="search"  
+                  placeholder="Enter search"
+                  @input="${this._inputChange}">
+            </div>
+            <div>Current search: ${this.filterText}</div>
+          </div>
+          <div class="col-md-9">
+            <div class="beers">
+              ${ this.beers.filter((beer) => {
+                return beer.name.match(new RegExp(this.filterText, 'i'));
+              })
+              .map((beer) => {
+                return html`
+                    <beer-list-item name="${beer.name}" description="${beer.description}">
+                    </beer-list-item>
+                `;
+                })
+              }
+            </div>
+            <div>Number of beers in list: ${this._currentBeers()}</div>
+          </div>          
+        </div>
       </div>
     `;
   }

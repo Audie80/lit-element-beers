@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "LitElement Beers - A LitElement tutorial",
   "main": "index.js",
+  "scripts": {
+    "serve": "node ./scripts/web-server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lostinbrittany/lit-element-beers.git"
