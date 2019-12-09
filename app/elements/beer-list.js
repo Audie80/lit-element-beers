@@ -4,20 +4,35 @@ import bootstrapStyle from '../web_modules/@granite-elements/granite-lit-bootstr
 
 const beers = [
   {
-    alcohol: 8.5,
-    name: "Affligem Tripel",
-    description: "The king of the abbey beers. It is amber-gold and pours with a deep head and original aroma, delivering a complex, full bodied flavour. Pure enjoyment! Secondary fermentation in the bottle."
+    "alcohol": 6.8,
+    "name": "Affligem Blond",
+    "description": "Affligem Blonde, the classic clear blonde abbey ale, with a gentle roundness and 6.8% alcohol. Low on bitterness, it is eminently drinkable."
   },
   {
-    alcohol: 9.2,
-    name: "Rochefort 8",
-    description: "A dry but rich flavoured beer with complex fruity and spicy flavours."
+    "alcohol": 8.5,
+    "name": "Affligem Tripel",
+    "description": "The king of the abbey beers. It is amber-gold and pours with a deep head and original aroma, delivering a complex, full bodied flavour. Pure enjoyment! Secondary fermentation in the bottle."
   },
   {
-    alcohol: 7,
-    name: "Chimay Rouge",
-    description: "This Trappist beer possesses a beautiful coppery colour that makes it particularly attractive. Topped with a creamy head, it gives off a slight fruity apricot smell from the fermentation. The aroma felt in the mouth is a balance confirming the fruit nuances revealed to the sense of smell. This traditional Belgian beer is best savoured at cellar temperature "
+    "alcohol": 9.2,
+    "name": "Rochefort 8",
+    "description": "A dry but rich flavoured beer with complex fruity and spicy flavours."
+  },
+  {
+    "alcohol": 11.3,
+    "name": "Rochefort 10",
+    "description": "The top product from the Rochefort Trappist brewery. Dark colour, full and very impressive taste. Strong plum, raisin, and black currant palate, with ascending notes of vinousness and other complexities."
+  },
+  {
+    "alcohol": 7,
+    "name": "Chimay Rouge",
+    "description": "This Trappist beer possesses a beautiful coppery colour that makes it particularly attractive. Topped with a creamy head, it gives off a slight fruity apricot smell from the fermentation. The aroma felt in the mouth is a balance confirming the fruit nuances revealed to the sense of smell. This traditional Belgian beer is best savoured at cellar temperature "
   }
+];
+
+const criteria = [
+  { name: "name", label: "Alphabetical" },
+  { name: "alcohol", label: "Alcohol content" }
 ];
 
 class BeerList extends LitElement {
@@ -25,6 +40,7 @@ class BeerList extends LitElement {
   constructor() {
     super();
     this.beers = beers;
+    this.criterium = criteria[0].name;
   }
 
   static get properties() {
@@ -34,6 +50,12 @@ class BeerList extends LitElement {
       },
       filterText: {
         type: String,
+      },
+      criterium: {
+        type: String,
+      },
+      descendingSort: {
+        type: Boolean,
       }
     };
   }
@@ -46,6 +68,22 @@ class BeerList extends LitElement {
     return this.beers.filter((beer) => {
       return beer.name.match(new RegExp(this.filterText, 'i'));
     }).length;
+  }
+
+  _beerSorter(a, b) {
+    let invert = 1;
+    if (this.descendingSort) invert = -1;
+    if (a[this.criterium] === b[this.criterium]) return 0;
+    if (a[this.criterium] < b[this.criterium]) return -1 * invert;
+    if (a[this.criterium] > b[this.criterium]) return 1 * invert;
+  }
+
+  _sortingChanged() {
+    this.criterium = this.shadowRoot.querySelector('#sort').selectedOptions[0].value;
+  }
+
+  _descendingChange() {
+    this.descendingSort = this.shadowRoot.querySelector('#descending').checked;
   }
 
   static get styles() {
@@ -71,12 +109,28 @@ class BeerList extends LitElement {
                   @input="${this._inputChange}">
             </div>
             <div>Current search: ${this.filterText}</div>
+            <label 
+                for="sort">
+              Sort by
+            </label>
+            <select 
+                id="sort" 
+                class="form-control"
+                @change='${this._sortingChanged}'>
+              ${ criteria.map((item) => html`<option value="${item.name}"> ${item.label}</option>`) }
+            </select>
+            <label for="descending">Descending sort</label>
+            <input
+                id="descending"
+                type="checkbox"
+                @change="${this._descendingChange}">
           </div>
           <div class="col-md-9">
             <div class="beers">
               ${ this.beers.filter((beer) => {
                 return beer.name.match(new RegExp(this.filterText, 'i'));
               })
+              .sort((a, b) => this._beerSorter(a, b))
               .map((beer) => {
                 return html`
                     <beer-list-item name="${beer.name}" description="${beer.description}">
