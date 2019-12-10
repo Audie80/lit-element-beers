@@ -63,7 +63,7 @@ class BeerList extends LitElement {
 
   async _getData() {
     try {
-      const response = await fetch('./data/beers/beers.json');
+      const response = await fetch('http://localhost:3000/beers');
       this.beers = await response.json();
     }
     catch (err) {

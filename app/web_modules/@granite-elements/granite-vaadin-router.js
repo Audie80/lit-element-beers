@@ -133,7 +133,7 @@ function loadBundle(bundle) {
 function fireRouterEvent(type, detail) {
   return !window.dispatchEvent(new CustomEvent(
     `vaadin-router-${type}`,
-    { cancelable: type === 'go', detail }
+    {cancelable: type === 'go', detail}
   ));
 }
 
@@ -157,7 +157,7 @@ function getNotFoundError(context) {
   return error;
 }
 
-const notFoundResult = new (class NotFoundResult { })();
+const notFoundResult = new (class NotFoundResult {})();
 
 /* istanbul ignore next: coverage is calculated in Chrome, this code is for IE */
 function getAnchorOrigin(anchor) {
@@ -240,7 +240,7 @@ function vaadinRouterGlobalClickHandler(event) {
   }
 
   // if none of the above, convert the click into a navigation event
-  if (fireRouterEvent('go', { pathname: anchor.pathname })) {
+  if (fireRouterEvent('go', {pathname: anchor.pathname})) {
     event.preventDefault();
   }
 }
@@ -270,7 +270,7 @@ const isIE = /Trident/.test(navigator.userAgent);
 
 /* istanbul ignore next: coverage is calculated in Chrome, this code is for IE */
 if (isIE && !isFunction(window.PopStateEvent)) {
-  window.PopStateEvent = function (inType, params) {
+  window.PopStateEvent = function(inType, params) {
     params = params || {};
     var e = document.createEvent('Event');
     e.initEvent(inType, Boolean(params.bubbles), Boolean(params.cancelable));
@@ -284,7 +284,7 @@ function vaadinRouterGlobalPopstateHandler(event) {
   if (event.state === 'vaadin-router-ignore') {
     return;
   }
-  fireRouterEvent('go', { pathname: window.location.pathname });
+  fireRouterEvent('go', {pathname: window.location.pathname});
 }
 
 /**
@@ -343,7 +343,7 @@ var PATH_REGEXP = new RegExp([
  * @param  {Object=} options
  * @return {!Array}
  */
-function parse(str, options) {
+function parse (str, options) {
   var tokens = [];
   var key = 0;
   var index = 0;
@@ -422,14 +422,14 @@ function parse(str, options) {
  * @param  {Object=}            options
  * @return {!function(Object=, Object=)}
  */
-function compile(str, options) {
+function compile (str, options) {
   return tokensToFunction(parse(str, options))
 }
 
 /**
  * Expose a method for transforming tokens into the path function.
  */
-function tokensToFunction(tokens) {
+function tokensToFunction (tokens) {
   // Compile all the tokens into regexps.
   var matches = new Array(tokens.length);
 
@@ -510,7 +510,7 @@ function tokensToFunction(tokens) {
  * @param  {string} str
  * @return {string}
  */
-function escapeString(str) {
+function escapeString (str) {
   return str.replace(/([.+*?=^!:${}()[\]|/\\])/g, '\\$1')
 }
 
@@ -520,7 +520,7 @@ function escapeString(str) {
  * @param  {string} group
  * @return {string}
  */
-function escapeGroup(group) {
+function escapeGroup (group) {
   return group.replace(/([=!:$/()])/g, '\\$1')
 }
 
@@ -530,7 +530,7 @@ function escapeGroup(group) {
  * @param  {Object} options
  * @return {string}
  */
-function flags(options) {
+function flags (options) {
   return options && options.sensitive ? '' : 'i'
 }
 
@@ -541,7 +541,7 @@ function flags(options) {
  * @param  {Array=}  keys
  * @return {!RegExp}
  */
-function regexpToRegexp(path, keys) {
+function regexpToRegexp (path, keys) {
   if (!keys) return path
 
   // Use a negative lookahead to match only capturing groups.
@@ -572,7 +572,7 @@ function regexpToRegexp(path, keys) {
  * @param  {Object=} options
  * @return {!RegExp}
  */
-function arrayToRegexp(path, keys, options) {
+function arrayToRegexp (path, keys, options) {
   var parts = [];
 
   for (var i = 0; i < path.length; i++) {
@@ -590,7 +590,7 @@ function arrayToRegexp(path, keys, options) {
  * @param  {Object=} options
  * @return {!RegExp}
  */
-function stringToRegexp(path, keys, options) {
+function stringToRegexp (path, keys, options) {
   return tokensToRegExp(parse(path, options), keys, options)
 }
 
@@ -602,7 +602,7 @@ function stringToRegexp(path, keys, options) {
  * @param  {Object=} options
  * @return {!RegExp}
  */
-function tokensToRegExp(tokens, keys, options) {
+function tokensToRegExp (tokens, keys, options) {
   options = options || {};
 
   var strict = options.strict;
@@ -664,16 +664,16 @@ function tokensToRegExp(tokens, keys, options) {
  * @param  {Object=}               options
  * @return {!RegExp}
  */
-function pathToRegexp(path, keys, options) {
+function pathToRegexp (path, keys, options) {
   if (path instanceof RegExp) {
     return regexpToRegexp(path, keys)
   }
 
   if (Array.isArray(path)) {
-    return arrayToRegexp(/** @type {!Array} */(path), keys, options)
+    return arrayToRegexp(/** @type {!Array} */ (path), keys, options)
   }
 
-  return stringToRegexp(/** @type {string} */(path), keys, options)
+  return stringToRegexp(/** @type {string} */ (path), keys, options)
 }
 pathToRegexp_1.parse = parse_1;
 pathToRegexp_1.compile = compile_1;
@@ -689,7 +689,7 @@ pathToRegexp_1.tokensToRegExp = tokensToRegExp_1;
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-const { hasOwnProperty } = Object.prototype;
+const {hasOwnProperty} = Object.prototype;
 const cache = new Map();
 // see https://github.com/pillarjs/path-to-regexp/issues/148
 cache.set('|false', {
@@ -818,7 +818,7 @@ function matchRoute(route, pathname, ignoreLeadingSlash, parentKeys, parentParam
   return {
     next(routeToSkip) {
       if (route === routeToSkip) {
-        return { done: true };
+        return {done: true};
       }
 
       const children = route.__children = route.__children || route.children;
@@ -872,7 +872,7 @@ function matchRoute(route, pathname, ignoreLeadingSlash, parentKeys, parentParam
         }
       }
 
-      return { done: true };
+      return {done: true};
     },
   };
 }
@@ -923,13 +923,13 @@ function generateErrorMessage(currentContext) {
 }
 
 function addRouteToChain(context, match) {
-  const { route, path } = match;
+  const {route, path} = match;
   function shouldDiscardOldChain(oldChain, route) {
     return !route.parent || !oldChain || !oldChain.length || oldChain[oldChain.length - 1].route !== route.parent;
   }
 
   if (route && !route.__synthetic) {
-    const item = { path, route };
+    const item = {path, route};
     if (shouldDiscardOldChain(context.chain, route)) {
       context.chain = [item];
     } else {
@@ -950,8 +950,8 @@ class Resolver {
     this.baseUrl = options.baseUrl || '';
     this.errorHandler = options.errorHandler;
     this.resolveRoute = options.resolveRoute || resolveRoute;
-    this.context = Object.assign({ resolver: this }, options.context);
-    this.root = Array.isArray(routes) ? { path: '', __children: routes, parent: null, __synthetic: true } : routes;
+    this.context = Object.assign({resolver: this}, options.context);
+    this.root = Array.isArray(routes) ? {path: '', __children: routes, parent: null, __synthetic: true} : routes;
     this.root.parent = null;
   }
 
@@ -1021,7 +1021,7 @@ class Resolver {
     const context = Object.assign(
       {},
       this.context,
-      isString(pathnameOrContext) ? { pathname: pathnameOrContext } : pathnameOrContext
+      isString(pathnameOrContext) ? {pathname: pathnameOrContext} : pathnameOrContext
     );
     const match = matchRoute(
       this.root,
@@ -1141,7 +1141,7 @@ Resolver.pathToRegexp = pathToRegexp_1;
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-const { pathToRegexp: pathToRegexp$1 } = Resolver;
+const {pathToRegexp: pathToRegexp$1} = Resolver;
 const cache$1 = new Map();
 
 function cacheRoutes(routesByName, route, routes) {
@@ -1218,7 +1218,7 @@ function generateUrls(router, options = {}) {
           keys[tokens[i].name] = true;
         }
       }
-      regexp = { toPath, keys };
+      regexp = {toPath, keys};
       cache$1.set(fullPath, regexp);
       route.fullPath = fullPath;
     }
@@ -1307,7 +1307,7 @@ function copyContextWithoutNext(context) {
   return copy;
 }
 
-function createLocation({ pathname = '', chain = [], params = {}, redirectFrom, resolver }, route) {
+function createLocation({pathname = '', chain = [], params = {}, redirectFrom, resolver}, route) {
   const routes = chain.map(item => item.route);
   return {
     baseUrl: resolver && resolver.baseUrl || '',
@@ -1497,7 +1497,7 @@ class Router extends Resolver {
      * @type {!Vaadin.Router.Location}
      */
     this.location;
-    this.location = createLocation({ resolver: this });
+    this.location = createLocation({resolver: this});
 
     this.__lastStartedRenderId = 0;
     this.__navigationEventHandler = this.__onNavigationEvent.bind(this);
@@ -1536,8 +1536,8 @@ class Router extends Resolver {
           // end the resolution, despite the result is not empty. Checking
           // the result with a whitelist of values that end the resulution.
           if (result instanceof HTMLElement ||
-            result.redirect ||
-            result === notFoundResult) {
+              result.redirect ||
+              result === notFoundResult) {
             return result;
           }
         }
@@ -1548,7 +1548,7 @@ class Router extends Resolver {
 
         if (route.bundle) {
           return loadBundle(route.bundle)
-            .then(() => { }, () => {
+            .then(() => {}, () => {
               throw new Error(log(`Bundle not found: ${route.bundle}. Check if the file name is correct`));
             });
         }
@@ -1715,7 +1715,7 @@ class Router extends Resolver {
           }
 
           this.location = createLocation(context);
-          fireRouterEvent('location-changed', { router: this, location: this.location });
+          fireRouterEvent('location-changed', {router: this, location: this.location});
 
           if (shouldUpdateHistory) {
             this.__updateBrowserHistory(context.pathname, context.redirectFrom);
@@ -1746,8 +1746,8 @@ class Router extends Resolver {
             this.__updateBrowserHistory(pathname);
           }
           removeDomNodes(this.__outlet && this.__outlet.children);
-          this.location = createLocation({ pathname, resolver: this });
-          fireRouterEvent('error', { router: this, error, pathname });
+          this.location = createLocation({pathname, resolver: this});
+          fireRouterEvent('error', {router: this, error, pathname});
           throw error;
         }
       });
@@ -1812,7 +1812,7 @@ class Router extends Resolver {
     const newChain = newContext.chain;
 
     let callbacks = Promise.resolve();
-    const prevent = () => ({ cancel: true });
+    const prevent = () => ({cancel: true});
     const redirect = (pathname) => createRedirect(newContext, pathname);
 
     newContext.__divergedChainIndex = 0;
@@ -1821,7 +1821,7 @@ class Router extends Resolver {
         if (previousChain[i].route !== newChain[i].route
           || previousChain[i].path !== newChain[i].path
           || (previousChain[i].element && previousChain[i].element.localName)
-          !== (newChain[i].element && newChain[i].element.localName)
+            !== (newChain[i].element && newChain[i].element.localName)
         ) {
           break;
         }
@@ -1830,7 +1830,7 @@ class Router extends Resolver {
       for (let i = previousChain.length - 1; i >= newContext.__divergedChainIndex; i--) {
         const location = createLocation(newContext);
         callbacks = callbacks
-          .then(amend('onBeforeLeave', [location, { prevent }, this], previousChain[i].element))
+          .then(amend('onBeforeLeave', [location, {prevent}, this], previousChain[i].element))
           .then(result => {
             if (!(result || {}).redirect) {
               return result;
@@ -1841,7 +1841,7 @@ class Router extends Resolver {
 
     for (let i = newContext.__divergedChainIndex; i < newChain.length; i++) {
       const location = createLocation(newContext, newChain[i].route);
-      callbacks = callbacks.then(amend('onBeforeEnter', [location, { prevent, redirect }, this], newChain[i].element));
+      callbacks = callbacks.then(amend('onBeforeEnter', [location, {prevent, redirect}, this], newChain[i].element));
     }
 
     return callbacks.then(amendmentResult => {
@@ -1882,7 +1882,7 @@ class Router extends Resolver {
     if (window.location.pathname !== pathname) {
       const changeState = replace ? 'replaceState' : 'pushState';
       window.history[changeState](null, document.title, pathname);
-      window.dispatchEvent(new PopStateEvent('popstate', { state: 'vaadin-router-ignore' }));
+      window.dispatchEvent(new PopStateEvent('popstate', {state: 'vaadin-router-ignore'}));
     }
   }
 
@@ -2111,7 +2111,7 @@ class Router extends Resolver {
    * @return {boolean}
    */
   static go(pathname) {
-    return fireRouterEvent('go', { pathname });
+    return fireRouterEvent('go', {pathname});
   }
 }
 
@@ -2142,14 +2142,14 @@ function isForcedDevelopmentMode() {
 }
 
 function isLocalhost() {
-  return (["localhost", "127.0.0.1"].indexOf(window.location.hostname) >= 0);
+  return (["localhost","127.0.0.1"].indexOf(window.location.hostname) >= 0);
 }
 
 function isFlowProductionMode() {
   if (window.Vaadin && window.Vaadin.Flow && window.Vaadin.Flow.clients) {
     const productionModeApps = Object.keys(window.Vaadin.Flow.clients)
-      .map(key => window.Vaadin.Flow.clients[key])
-      .filter(client => client.productionMode);
+    .map(key => window.Vaadin.Flow.clients[key])
+    .filter(client => client.productionMode);
     if (productionModeApps.length > 0) {
       return true;
     }
@@ -2192,7 +2192,7 @@ window['Vaadin'] = window['Vaadin'] || {};
  * See the `isMinified()` function source code in this file for an example.
  *
  */
-const runIfDevelopmentMode = function (callback, args) {
+const runIfDevelopmentMode = function(callback, args) {
   if (window.Vaadin.developmentMode) {
     return uncommentAndRun(callback, args);
   }
@@ -2670,7 +2670,7 @@ try {
   vaadin-dev-mode:end **/
 }
 
-const usageStatistics = function () {
+const usageStatistics = function() {
   if (typeof runIfDevelopmentMode === 'function') {
     return runIfDevelopmentMode(maybeGatherAndSendStats);
   }
@@ -2686,7 +2686,7 @@ window.Vaadin.registrations.push({
 
 usageStatistics();
 
-Router.NavigationTrigger = { POPSTATE, CLICK };
+Router.NavigationTrigger = {POPSTATE, CLICK};
 
 class HashRouter extends Router {
   __updateBrowserHistory(pathname, replace) {
@@ -2710,7 +2710,7 @@ function globalHashChangeHandler(event) {
   const pathname = event.newURL && event.newURL.indexOf('#') > -1
     ? event.newURL.substring(event.newURL.indexOf('#') + 1)
     : '/';
-  Router.go(pathname);
+    Router.go(pathname);
 }
 
 
@@ -2732,4 +2732,3 @@ const HASHCHANGE = {
 Router.NavigationTrigger = [HASHCHANGE];
 
 export { HashRouter };
-//# sourceMappingURL=granite-vaadin-router.js.map
